@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>03a. Octave</title>
+</head>
+<body>
+  <h1>03a. Octave</h1>
+
+  <p>
+    <button id="startMusic">Start Music</button>
+  </p>
+
+  <img src="map-frequencies-to-notes.png" alt="map frequencies to notes">
+
+  <script>
+    // Types of scale: https://en.wikipedia.org/wiki/Scale_(music)
+    var octatonicScale = [
+      {d: 0, p: 440},
+      {d: 1, p: 440 * Math.pow(2, 2 / 12)},
+      {d: 2, p: 440 * Math.pow(2, 3 / 12)},
+      {d: 3, p: 440 * Math.pow(2, 5 / 12)},
+      {d: 4, p: 440 * Math.pow(2, 7 / 12)},
+      {d: 5, p: 440 * Math.pow(2, 8 / 12)},
+      {d: 6, p: 440 * Math.pow(2, 10 / 12)},
+      {d: 7, p: 440 * Math.pow(2, 12 / 12)}
+    ];
+
+    function play (delay, pitch, duration) {
+      var audioContext = new AudioContext();
+
+      var startTime = audioContext.currentTime + delay
+      var endTime = startTime + duration
+
+      var oscillator = audioContext.createOscillator()
+      oscillator.connect(audioContext.destination)
+
+      oscillator.type = 'sawtooth'
+      oscillator.frequency.value = pitch
+
+      oscillator.start(startTime)
+      oscillator.stop(endTime)
+    }
+    
+    var startMusic = () => octatonicScale.map(note => play(note.d, note.p, 0.75));
+
+    document.getElementById('startMusic').addEventListener('click', startMusic);
+  </script>
+</body>
+</html>

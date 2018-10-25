@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>03b. L'oiseau chante</title>
+</head>
+<body>
+  <h1>03b. L'oiseau chante</h1>
+
+  <p>
+    <button id="startMusic">Start Music</button>
+  </p>
+  
+  <img src="map-frequencies-to-notes.png" alt="map frequencies to notes">
+
+  <script>
+    // Possible values: 220, 440, 880
+    const baseNote = 440;
+
+    // Types of scale: https://en.wikipedia.org/wiki/Scale_(music)
+    const heptatonicScale = {
+      do: baseNote,
+      re: baseNote * Math.pow(2, 2 / 12),
+      mi: baseNote * Math.pow(2, 3 / 12),
+      fa: baseNote * Math.pow(2, 5 / 12),
+      sol: baseNote * Math.pow(2, 7 / 12),
+      la: baseNote * Math.pow(2, 8 / 12),
+      si: baseNote * Math.pow(2, 10 / 12)
+    };
+
+    const value = {
+      round: 2,
+      white: 1,
+      black: 0.5,
+      crochet: 0.25
+    };
+
+    const loiseauChante = [
+      {delay: 0, pitch: heptatonicScale.si, duration: value.black },
+      {delay: 1, pitch: heptatonicScale.la, duration: value.black },
+      {delay: 2, pitch: heptatonicScale.si, duration: value.crochet },
+      {delay: 2.5, pitch: heptatonicScale.la, duration: value.crochet },
+      {delay: 3, pitch: heptatonicScale.sol, duration: value.crochet },
+
+      {delay: 4, pitch: heptatonicScale.la, duration: value.crochet },
+      {delay: 4.5, pitch: heptatonicScale.la, duration: value.crochet },
+      {delay: 5, pitch: heptatonicScale.sol, duration: value.crochet },
+      {delay: 5.5, pitch: heptatonicScale.la, duration: value.crochet },
+      {delay: 6, pitch: heptatonicScale.si, duration: value.black },
+      {delay: 7, pitch: heptatonicScale.sol, duration: value.black },
+
+      {delay: 8.5, pitch: heptatonicScale.si, duration: value.black },
+      {delay: 9.5, pitch: heptatonicScale.la, duration: value.black },
+      {delay: 10.5, pitch: heptatonicScale.si, duration: value.crochet },
+      {delay: 11, pitch: heptatonicScale.la, duration: value.crochet },
+      {delay: 11.5, pitch: heptatonicScale.sol, duration: value.crochet },
+
+      {delay: 12.5, pitch: heptatonicScale.la, duration: value.crochet },
+      {delay: 13, pitch: heptatonicScale.la, duration: value.crochet },
+      {delay: 13.5, pitch: heptatonicScale.si, duration: value.crochet },
+      {delay: 14, pitch: heptatonicScale.la, duration: value.crochet },
+      {delay: 14.5, pitch: heptatonicScale.sol, duration: value.black },
+    ];
+
+    const AudioContext = window.AudioContext // Default
+      || window.webkitAudioContext // Safari and old versions of Chrome
+      || false;
+
+    const play = (delay, pitch, duration) => {
+      if (!AudioContext) {
+        throw new Error('This browser does not support any Web Audio API.');
+      }
+
+      const audioContext = new AudioContext();
+
+      const startTime = audioContext.currentTime + delay
+      const endTime = startTime + duration
+
+      const oscillator = audioContext.createOscillator()
+      oscillator.connect(audioContext.destination)
+
+      oscillator.type = 'square'
+      oscillator.frequency.value = pitch
+
+      oscillator.start(startTime)
+      oscillator.stop(endTime)
+    }
+
+    const startMusic = () => loiseauChante.map(note => play(note.delay, note.pitch, note.duration));
+
+    document.getElementById('startMusic').addEventListener('click', startMusic);
+  </script>
+</body>
+</html>
