@@ -16,16 +16,20 @@
   <img src="map-frequencies-to-notes.png" alt="map frequencies to notes">
 
   <script>
+    const middleASmall = 220;
+    const middleA = 440;
+    const middleATwoLine = 880; //  https://en.wikipedia.org/wiki/A_(musical_note)
+
     // Types of scale: https://en.wikipedia.org/wiki/Scale_(music)
     var octatonicScale = [
-      {d: 0, p: 440},
-      {d: 1, p: 440 * Math.pow(2, 2 / 12)},
-      {d: 2, p: 440 * Math.pow(2, 3 / 12)},
-      {d: 3, p: 440 * Math.pow(2, 5 / 12)},
-      {d: 4, p: 440 * Math.pow(2, 7 / 12)},
-      {d: 5, p: 440 * Math.pow(2, 8 / 12)},
-      {d: 6, p: 440 * Math.pow(2, 10 / 12)},
-      {d: 7, p: 440 * Math.pow(2, 12 / 12)}
+      {d: 0, p: middleA * Math.pow(2, 3 / 12)}, // do
+      {d: 0.5, p: middleA * Math.pow(2, 5 / 12)},
+      {d: 1, p: middleA * Math.pow(2, 7 / 12)},
+      {d: 1.5, p: middleA * Math.pow(2, 8 / 12)},
+      {d: 2, p: middleA * Math.pow(2, 10 / 12)},
+      {d: 2.5, p: middleATwoLine},
+      {d: 3, p: middleATwoLine * Math.pow(2, 2 / 12)},
+      {d: 3.5, p: middleATwoLine * Math.pow(2, 3 / 12)}
     ];
 
     function play (delay, pitch, duration) {
@@ -44,7 +48,7 @@
       oscillator.stop(endTime)
     }
     
-    var startMusic = () => octatonicScale.map(note => play(note.d, note.p, 0.75));
+    var startMusic = () => octatonicScale.map(note => play(note.d, note.p, 0.25));
 
     document.getElementById('startMusic').addEventListener('click', startMusic);
   </script>
