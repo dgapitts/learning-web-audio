@@ -16,18 +16,21 @@
   <img src="map-frequencies-to-notes.png" alt="map frequencies to notes">
 
   <script>
-    // Possible values: 220, 440, 880
-    const baseNote = 440;
+    const middleASmall = 220;
+    const middleA = 440;
+    const middleATwoLine = 880; //  https://en.wikipedia.org/wiki/A_(musical_note)
 
     // Types of scale: https://en.wikipedia.org/wiki/Scale_(music)
-    const heptatonicScale = {
-      do: baseNote,
-      re: baseNote * Math.pow(2, 2 / 12),
-      mi: baseNote * Math.pow(2, 3 / 12),
-      fa: baseNote * Math.pow(2, 5 / 12),
-      sol: baseNote * Math.pow(2, 7 / 12),
-      la: baseNote * Math.pow(2, 8 / 12),
-      si: baseNote * Math.pow(2, 10 / 12)
+    const scale = {
+      la: middleA,
+      si: middleA * Math.pow(2, 2 / 12),
+      do: middleA * Math.pow(2, 3 / 12),
+      re: middleA * Math.pow(2, 5 / 12),
+      mi: middleA * Math.pow(2, 7 / 12),
+      fa: middleA * Math.pow(2, 8 / 12),
+      sol: middleA * Math.pow(2, 10 / 12),
+      la2: middleATwoLine,
+      si2: middleATwoLine * Math.pow(2, 2 / 12),
     };
 
     const value = {
@@ -38,30 +41,30 @@
     };
 
     const loiseauChante = [
-      {delay: 0, pitch: heptatonicScale.si, duration: value.black },
-      {delay: 1, pitch: heptatonicScale.la, duration: value.black },
-      {delay: 2, pitch: heptatonicScale.si, duration: value.crochet },
-      {delay: 2.5, pitch: heptatonicScale.la, duration: value.crochet },
-      {delay: 3, pitch: heptatonicScale.sol, duration: value.crochet },
+      {delay: 0, pitch: scale.si2, duration: value.black },
+      {delay: 1, pitch: scale.la2, duration: value.black },
+      {delay: 2, pitch: scale.si2, duration: value.crochet },
+      {delay: 2.5, pitch: scale.la2, duration: value.crochet },
+      {delay: 3, pitch: scale.sol, duration: value.crochet },
 
-      {delay: 4, pitch: heptatonicScale.la, duration: value.crochet },
-      {delay: 4.5, pitch: heptatonicScale.la, duration: value.crochet },
-      {delay: 5, pitch: heptatonicScale.sol, duration: value.crochet },
-      {delay: 5.5, pitch: heptatonicScale.la, duration: value.crochet },
-      {delay: 6, pitch: heptatonicScale.si, duration: value.black },
-      {delay: 7, pitch: heptatonicScale.sol, duration: value.black },
+      {delay: 4, pitch: scale.la2, duration: value.crochet },
+      {delay: 4.5, pitch: scale.la2, duration: value.crochet },
+      {delay: 5, pitch: scale.sol, duration: value.crochet },
+      {delay: 5.5, pitch: scale.la2, duration: value.crochet },
+      {delay: 6, pitch: scale.si2, duration: value.black },
+      {delay: 7, pitch: scale.sol, duration: value.black },
 
-      {delay: 8.5, pitch: heptatonicScale.si, duration: value.black },
-      {delay: 9.5, pitch: heptatonicScale.la, duration: value.black },
-      {delay: 10.5, pitch: heptatonicScale.si, duration: value.crochet },
-      {delay: 11, pitch: heptatonicScale.la, duration: value.crochet },
-      {delay: 11.5, pitch: heptatonicScale.sol, duration: value.crochet },
+      {delay: 8.5, pitch: scale.si2, duration: value.black },
+      {delay: 9.5, pitch: scale.la2, duration: value.black },
+      {delay: 10.5, pitch: scale.si2, duration: value.crochet },
+      {delay: 11, pitch: scale.la2, duration: value.crochet },
+      {delay: 11.5, pitch: scale.sol, duration: value.crochet },
 
-      {delay: 12.5, pitch: heptatonicScale.la, duration: value.crochet },
-      {delay: 13, pitch: heptatonicScale.la, duration: value.crochet },
-      {delay: 13.5, pitch: heptatonicScale.si, duration: value.crochet },
-      {delay: 14, pitch: heptatonicScale.la, duration: value.crochet },
-      {delay: 14.5, pitch: heptatonicScale.sol, duration: value.black },
+      {delay: 12.5, pitch: scale.la2, duration: value.crochet },
+      {delay: 13, pitch: scale.la2, duration: value.crochet },
+      {delay: 13.5, pitch: scale.si2, duration: value.crochet },
+      {delay: 14, pitch: scale.la2, duration: value.crochet },
+      {delay: 14.5, pitch: scale.sol, duration: value.black },
     ];
 
     const AudioContext = window.AudioContext // Default
@@ -81,7 +84,7 @@
       const oscillator = audioContext.createOscillator()
       oscillator.connect(audioContext.destination)
 
-      oscillator.type = 'square'
+      oscillator.type = 'triangle'
       oscillator.frequency.value = pitch
 
       oscillator.start(startTime)
