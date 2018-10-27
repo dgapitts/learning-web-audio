@@ -4,32 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>03. Play a short sequence of notes</title>
+  <title>Modulate filter cutoff</title>
 </head>
 <body>
-  <h1>03. Play a short sequence of notes</h1>
-
-  <pre>
-    var audioContext = new AudioContext()
-
-    play(0, 3, 0.5)
-    play(1, 10, 0.5)
-    play(2, 15, 0.5)
-
-    function play (delay, pitch, duration) {
-      var startTime = audioContext.currentTime + delay
-      var endTime = startTime + duration
-
-      var oscillator = audioContext.createOscillator()
-      oscillator.connect(audioContext.destination)
-
-      oscillator.type = 'sawtooth'
-      oscillator.detune.value = pitch * 100
-
-      oscillator.start(startTime)
-      oscillator.stop(endTime)
-    }
-  </pre>
+  <h1>05. Modulate filter cutoff</h1>
 
   <script>
     var audioContext = new AudioContext()
@@ -42,8 +20,15 @@
       var startTime = audioContext.currentTime + delay
       var endTime = startTime + duration
 
+      var filter = audioContext.createBiquadFilter()
+      filter.connect(audioContext.destination)
+      filter.type = 'highpass'
+      filter.frequency.value = 10000
+      filter.frequency.setValueAtTime(10000, startTime)
+      filter.frequency.linearRampToValueAtTime(500, endTime)
+
       var oscillator = audioContext.createOscillator()
-      oscillator.connect(audioContext.destination)
+      oscillator.connect(filter)
 
       oscillator.type = 'sawtooth'
       oscillator.detune.value = pitch * 100
@@ -51,6 +36,7 @@
       oscillator.start(startTime)
       oscillator.stop(endTime)
     }
+
   </script>
 </body>
 </html>

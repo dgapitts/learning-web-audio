@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Add an envelope</title>
+</head>
+<body>
+  <h1>06. Add an envelope</h1>
+
+  <script>
+    var audioContext = new AudioContext()
+
+    play(0, 3, 0.5)
+    play(1, 10, 0.5)
+    play(2, 15, 0.5)
+
+    function play (delay, pitch, duration) {
+      var startTime = audioContext.currentTime + delay
+      var endTime = startTime + duration
+      
+      var amp = audioContext.createGain()
+      amp.connect(audioContext.destination)
+      amp.gain.value = 0
+      amp.gain.setTargetAtTime(2, startTime, 0.2)
+      amp.gain.setTargetAtTime(0, endTime, 0.2)
+
+      var oscillator = audioContext.createOscillator()
+      oscillator.connect(amp)
+
+      oscillator.type = 'sawtooth'
+      oscillator.detune.value = pitch * 100
+
+      oscillator.start(startTime)
+      oscillator.stop(endTime + 2)
+    }
+  </script>
+</body>
+</html>

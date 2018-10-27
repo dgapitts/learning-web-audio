@@ -4,24 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>01. Play a pitched sawtooth wave</title>
+  <title>Chromatic scale</title>
 </head>
 <body>
-  <h1>01. Play a pitched sawtooth wave</h1>
+  <h1>02. Chromatic scale</h1>
   
-  <pre>
-    var audioContext = new AudioContext()
-
-    var oscillator = audioContext.createOscillator()
-    oscillator.connect(audioContext.destination)
-    
-    oscillator.type = 'sawtooth'
-    oscillator.frequency.value = 220
-    
-    oscillator.start(audioContext.currentTime)
-    oscillator.stop(audioContext.currentTime + 2)
-  </pre>
-
   <script>
     var audioContext = new AudioContext()
 
@@ -29,7 +16,7 @@
     oscillator.connect(audioContext.destination)
 
     oscillator.type = 'sawtooth'
-    oscillator.frequency.value = 220
+    oscillator.frequency.value = 440 * Math.pow(2, 3 / 12)
 
     oscillator.start(audioContext.currentTime)
     oscillator.stop(audioContext.currentTime + 2)
