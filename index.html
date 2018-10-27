@@ -4,41 +4,142 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Solutions to the exercises of web-audio-school</title>
+  <title>Synthesiser</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css">
+  <style>
+    #synthesiserForm {
+      margin-top: 2em;
+    }
+
+    ul {
+      padding-left: 0;
+    }
+
+    ul li {
+      list-style: none;
+    }
+  </style>
 </head>
 <body>
-  <h1>Solutions to the exercises of <a href="http://mmckegg.github.io/web-audio-school/">web-audio-school</a></h1>
-
-  <ol>
-    <li>
-      <a href="1-sawtooth-wave.html">Play a pitched sawtooth wave</a>
-    </li>
-    <li>
-      <a href="2-chromatic-scale.html">Chromatic scale</a>
-    </li>
-    <li>
-      <a href="3-short-sequence.html">Play a short sequence of notes</a>
-      <ul itemtype="a">
-        <li>
-          <a href="3a-octave.html">Octave</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <h1 class="navbar-brand">
+      Synthesiser
+    </h1>
+    <div class="navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="1-sawtooth-wave.html">Wave</a>
         </li>
-        <li>
-          <a href="3b-loiseau-chante.html">L'oiseau chante</a>
+        <li class="nav-item">
+          <a class="nav-link" href="2-chromatic-scale.html">scale</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="3-short-sequence.html">Notes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="4-add-a-high-pass-filter.html">Filter</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="5-modulate-filter-cutoff.html">Cutoff</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="6-add-an-envelope.html">Envelope</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="7-vibrato.html">Vibrato</a>
         </li>
       </ul>
-    </li>
-    <li>
-      <a href="4-add-a-high-pass-filter.html">Add a high-pass filter</a>
-    </li>
-    <li>
-      <a href="5-modulate-filter-cutoff.html">Modulate filter cutoff</a>
-    </li>
-    <li>
-      <a href="6-add-an-envelope.html">Add an envelope</a>
-    </li>
-    <li>
-      <a href="7-vibrato.html">Vibrato</a>
-    </li>
-  </ol>
+    </div>
+  </nav>
+
+  <div class="container">
+    <form id="synthesiserForm" action="#">
+      <div class="form-group">
+        <label class="bmd-label-static">
+          Frequency: <span id="frequencyNumber"></span> Herz
+        </label>
+        <input type="range" class="form-control" id="frequencyRangeInput" value="440" min="55" max="1760" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label class="bmd-label-static">
+          Delay: <span id="delayNumber"></span> second
+        </label>
+        <input type="range" class="form-control" id="delayRangeInput" value="0" min="0" max="1" step="0.1">
+      </div>
+
+      <div class="form-group">
+        <label class="bmd-label-static">
+          Duration: <span id="durationNumber"></span> seconds
+        </label>
+        <input type="range" class="form-control" id="durationRangeInput" value="0.2" min="0" max="5" step="0.1">
+      </div>
+
+      <div class="form-group">
+        <label class="bmd-label-static">
+          Oscillator type
+        </label>
+        <select name="oscillatorType" id="oscillatorType" class="btn btn-raised btn-secondary">
+          <option value="triangle">Triangle</option>
+          <option value="sawtooth">Sawtooth</option>
+          <option value="square">Square</option>
+          <option value="sine">Sine</option>
+        </select>
+      </div>
+  
+      <p class="form-group">
+        <button id="playButton" class="btn btn-raised btn-primary">Play</button>
+      </p>
+    </form>
+    <p>Tutorials: <a href="http://mmckegg.github.io/web-audio-school/">web-audio-school</a></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('synthesiserForm');
+
+    const frequencyNumber = document.getElementById('frequencyNumber');
+    const frequencyRangeInput = document.getElementById('frequencyRangeInput');
+    frequencyNumber.innerText = frequencyRangeInput.value;
+    frequencyRangeInput.addEventListener('change', (e) => frequencyNumber.innerText = e.target.value);
+
+    const delayNumber = document.getElementById('delayNumber');
+    const delayRangeInput = document.getElementById('delayRangeInput');
+    delayNumber.innerText = delayRangeInput.value;
+    delayRangeInput.addEventListener('change', (e) => delayNumber.innerText = e.target.value);
+
+    const durationNumber = document.getElementById('durationNumber');
+    const durationRangeInput = document.getElementById('durationRangeInput');
+    durationNumber.innerText = durationRangeInput.value;
+    durationRangeInput.addEventListener('change', (e) => durationNumber.innerText = e.target.value);
+
+    const oscillatorType = document.getElementById('oscillatorType');
+
+    const playButton = document.getElementById('playButton');
+
+    form.addEventListener('submit', (e) => e.preventDefault());
+
+    const play = () => {
+      const audioContext = new (AudioContext || window.webkitAudioContext)();
+      
+      const delay = parseFloat(delayRangeInput.value);
+      const pitch = parseFloat(frequencyRangeInput.value);
+      const duration = parseFloat(durationRangeInput.value);
+
+      const startTime = audioContext.currentTime + delay;
+      const endTime = startTime + duration;
+
+      const oscillator = audioContext.createOscillator();
+      oscillator.connect(audioContext.destination);
+
+      oscillator.type = oscillatorType.value;
+      oscillator.frequency.value = frequencyRangeInput.value;
+
+      oscillator.start(startTime);
+      oscillator.stop(endTime);      
+    };
+
+    playButton.addEventListener('click', play);
+  </script>
 </body>
 </html>
