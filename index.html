@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Synthesiser</title>
 
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="bootstrap-material-design.min.css">
   <style>
     ul {
@@ -92,27 +93,59 @@
         </select>
       </div>
 
-      <fieldset>
-          <legend>Biquad Filtering</legend>
-          <div class="form-group">
-            <label for="biquadFilterType" class="bmd-label-static">Filter type</label>
-            <select name="biquadFilterType" id="biquadFilterType" class="btn btn-raised btn-secondary">
-              <option value="lowpass">Lowpass</option>
-              <option value="highpass">Highpass</option>
-              <option value="bandpass">Bandpass</option>
-              <option value="lowshelf">Lowshelf</option>
-              <option value="highshelf">Highshelf</option>
-              <option value="peaking">Peaking</option>
-              <option value="notch">Notch</option>
-              <option value="allpass">Allpass</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="biquadFilterFrequencyRangeInput" class="bmd-label-static">
-              Filter frequency: <span id="biquadFilterFrequencyNumber"></span> Herz
-            </label>
-            <input type="range" class="form-control" id="biquadFilterFrequencyRangeInput" value="10000" min="0" max="24000" step="10">
-          </div>
+      <label for="enableBiquad" class="header">
+        <input type="checkbox" id="enableBiquad">
+        <strong>Biquad Filter</strong>
+      </label>
+      <fieldset id="biquadFieldset" style="display: none;">
+        <div class="form-group">
+          <label for="biquadFilterType" class="bmd-label-static">Filter type</label>
+          <select name="biquadFilterType" id="biquadFilterType" class="btn btn-raised btn-secondary">
+            <option value="bandpass">Bandpass</option>
+            <option value="lowpass">Lowpass</option>
+            <option value="highpass">Highpass</option>
+            <option value="lowshelf">Lowshelf</option>
+            <option value="highshelf">Highshelf</option>
+            <option value="peaking">Peaking</option>
+            <option value="notch">Notch</option>
+            <option value="allpass">Allpass</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="biquadFilterFrequencyRangeInput" class="bmd-label-static">
+            Filter frequency: <span id="biquadFilterFrequencyNumber"></span> Herz
+          </label>
+          <input type="range" class="form-control" id="biquadFilterFrequencyRangeInput" value="10000" min="0" max="24000" step="10">
+        </div>
+        <div class="form-group">
+          <label for="biquadFilterLinearRampRangeInput" class="bmd-label-static">
+            Linear ramp: <span id="biquadFilterLinearRampNumber"></span> Herz
+          </label>
+          <input type="range" class="form-control" id="biquadFilterLinearRampRangeInput" value="440" min="55" max="1760" step="0.01">
+        </div>
+      </fieldset>
+
+      <label for="enableGain">
+        <input type="checkbox" id="enableGain">
+        <strong>Gain (envelope)</strong>
+      </label>
+      <fieldset id="gainFieldset" style="display: none;">
+        <div class="form-group">
+          <label for="gainTarget" class="bmd-label-static">Start target</label>
+          <input type="number" id="gainStartTarget" value="2">
+        </div>
+        <div class="form-group">
+          <label for="gainTimeConstant" class="bmd-label-static">Start time constant</label>
+          <input type="number" id="gainStartTimeConstant" value="0.2">
+        </div>
+        <div class="form-group">
+          <label for="gainTarget" class="bmd-label-static">End target</label>
+          <input type="number" id="gainEndTarget" value="0">
+        </div>
+        <div class="form-group">
+          <label for="gainTimeConstant" class="bmd-label-static">End time constant</label>
+          <input type="number" id="gainEndTimeConstant" value="0.2">
+        </div>
       </fieldset>
   
       <p class="form-group">
@@ -142,11 +175,29 @@
 
     const oscillatorType = document.getElementById('oscillatorType');
 
+    const biquadFieldset = document.getElementById('biquadFieldset');
+    const enableBiquad = document.getElementById('enableBiquad');
+    enableBiquad.addEventListener('change', (e) => biquadFieldset.style.display = (e.target.checked) ? 'block' : 'none');
+
     const biquadFilterType = document.getElementById('biquadFilterType');
     const biquadFilterFrequencyRangeInput = document.getElementById('biquadFilterFrequencyRangeInput');
     const biquadFilterFrequencyNumber = document.getElementById('biquadFilterFrequencyNumber');
     biquadFilterFrequencyNumber.innerText = biquadFilterFrequencyRangeInput.value;
     biquadFilterFrequencyRangeInput.addEventListener('change', (e) => biquadFilterFrequencyNumber.innerText = e.target.value);
+
+    const biquadFilterLinearRampNumber = document.getElementById('biquadFilterLinearRampNumber');
+    const biquadFilterLinearRampRangeInput = document.getElementById('biquadFilterLinearRampRangeInput');
+    biquadFilterLinearRampNumber.innerText = biquadFilterLinearRampRangeInput.value;
+    biquadFilterLinearRampRangeInput.addEventListener('change', (e) => biquadFilterLinearRampNumber.innerText = e.target.value);
+
+    const gainFieldset = document.getElementById('gainFieldset');
+    const enableGain = document.getElementById('enableGain');
+    enableGain.addEventListener('change', (e) => gainFieldset.style.display = (e.target.checked) ? 'block' : 'none');
+
+    const gainStartTarget = document.getElementById('gainStartTarget');
+    const gainStartTimeConstant = document.getElementById('gainStartTimeConstant');
+    const gainEndTarget = document.getElementById('gainEndTarget');
+    const gainEndTimeConstant = document.getElementById('gainEndTimeConstant');
 
     const playButton = document.getElementById('playButton');
 
@@ -158,25 +209,60 @@
       const delay = parseFloat(delayRangeInput.value);
       const pitch = parseFloat(frequencyRangeInput.value);
       const duration = parseFloat(durationRangeInput.value);
+      const biquadFrequency = parseFloat(biquadFilterFrequencyRangeInput.value);
+      const biquadRamp = parseFloat(biquadFilterLinearRampRangeInput.value);
+
+      const gainST = parseFloat(gainStartTarget.value);
+      const gainSTC = parseFloat(gainStartTimeConstant.value);
+      const gainET = parseFloat(gainEndTarget.value);
+      const gainETC = parseFloat(gainEndTimeConstant.value);
 
       const startTime = audioContext.currentTime + delay;
       const endTime = startTime + duration;
 
       const oscillator = audioContext.createOscillator();
 
-      const filter = audioContext.createBiquadFilter()
-      filter.type = biquadFilterType.value;
-      filter.frequency.value = biquadFilterFrequencyRangeInput.value;
+      let filter;
+      if (enableBiquad.checked) {
+        filter = audioContext.createBiquadFilter();
+        filter.type = biquadFilterType.value;
+        filter.frequency.setValueAtTime(biquadFrequency, startTime);
+        filter.frequency.linearRampToValueAtTime(biquadRamp, endTime);
+      }
 
-      filter.connect(audioContext.destination)
+      let amp;
+      if (enableGain.checked) {
+        amp = audioContext.createGain();
+        amp.gain.value = 0;
+        amp.gain.setTargetAtTime(gainST, startTime, gainSTC);
+        amp.gain.setTargetAtTime(gainET, endTime, gainETC);
+      }
 
-      oscillator.connect(filter)
+      if (enableBiquad.checked && enableGain.checked) {
+        filter.connect(audioContext.destination);
+        amp.connect(filter);
+        oscillator.connect(amp);
+      }
+
+      if (enableBiquad.checked && !enableGain.checked) {
+        filter.connect(audioContext.destination);
+        oscillator.connect(filter);
+      }
+
+      if (!enableBiquad.checked && enableGain.checked) {
+        amp.connect(audioContext.destination);
+        oscillator.connect(amp);
+      }
+
+      if (!enableBiquad.checked && !enableGain.checked) {
+        oscillator.connect(audioContext.destination);
+      }
 
       oscillator.type = oscillatorType.value;
-      oscillator.frequency.value = frequencyRangeInput.value;
+      oscillator.frequency.value = pitch;
 
       oscillator.start(startTime);
-      oscillator.stop(endTime);      
+      oscillator.stop(endTime + parseFloat((enableGain.checked) ? gainST : 0));
     };
 
     playButton.addEventListener('click', play);
