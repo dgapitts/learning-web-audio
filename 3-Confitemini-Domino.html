@@ -12,28 +12,32 @@
   <pre>
     var audioContext = new AudioContext()
 
-    // 3/4 time but playing slowly i.e. 2 seconds per beat i.e. very slow
+    // 3/4 time and 1 seconds per beat 
     // A = 110 i.e. relatively low - this song is typically lead by a baritone/male voice
     
     // 1st bar 
-    play(0, 9, 0.8) //F#
-    play(1, 9, 0.8) //F#
-    play(2, 9, 0.8) //F#
-    play(3, 9, 0.8) //F#
-    play(4, 9, 1.8) //F#
+    play(0, 9, 0.4) //F#
+    play(0.5, 9, 0.4) //F#
+    play(1.0, 9, 0.4) //F#
+    play(1.5, 9, 0.4) //F#
+    play(2, 9, 0.9) //F#
 
     // 2nd bar 
-    play(6, 9, 0.8) //F#
-    play(7, 5, 0.8) //D
-    play(8, 5, 3.8) //D
+    play(3, 9, 0.4) //F#
+    play(3.5, 5, 0.4) //D
+    play(4, 5, 1.9) //D
 
     // 3rd bar 
-    play(12, 9, 0.8) //F#
-    play(13, 10, 0.8) //G
-    play(14, 10, 0.8) //G
-    play(15, 9, 0.8) //F#
-    play(16, 9, 0.8) //F#
-    play(17, 12, 0.8) //A
+    play(6, 9, 0.4) //F#
+    play(6.5, 10, 0.4) //G
+    play(7, 10, 0.4) //G
+    play(7.5, 9, 0.4) //F#
+    play(8., 9, 0.4) //F#
+    play(8.5, 12, 0.4) //A
+
+    // 4th bar 
+    play(9, 7, 0.9) //E
+    play(10, 7, 1.9) //E
 
 
     function play (delay, pitch, duration) {
@@ -55,28 +59,32 @@
   <script>
       var audioContext = new AudioContext()
 
-    // 3/4 time but playing slowly i.e. 2 seconds per beat i.e. very slow
+    // 3/4 time and 1 seconds per beat 
     // A = 110 i.e. relatively low - this song is typically lead by a baritone/male voice
     
     // 1st bar 
-    play(0, 9, 0.8) //F#
-    play(1, 9, 0.8) //F#
-    play(2, 9, 0.8) //F#
-    play(3, 9, 0.8) //F#
-    play(4, 9, 1.8) //F#
+    play(0, 9, 0.4) //F#
+    play(0.5, 9, 0.4) //F#
+    play(1.0, 9, 0.4) //F#
+    play(1.5, 9, 0.4) //F#
+    play(2, 9, 0.9) //F#
 
     // 2nd bar 
-    play(6, 9, 0.8) //F#
-    play(7, 5, 0.8) //D
-    play(8, 5, 3.8) //D
+    play(3, 9, 0.4) //F#
+    play(3.5, 5, 0.4) //D
+    play(4, 5, 1.9) //D
 
     // 3rd bar 
-    play(12, 9, 0.8) //F#
-    play(13, 10, 0.8) //G
-    play(14, 10, 0.8) //G
-    play(15, 9, 0.8) //F#
-    play(16, 9, 0.8) //F#
-    play(17, 12, 0.8) //A
+    play(6, 9, 0.4) //F#
+    play(6.5, 10, 0.4) //G
+    play(7, 10, 0.4) //G
+    play(7.5, 9, 0.4) //F#
+    play(8., 9, 0.4) //F#
+    play(8.5, 12, 0.4) //A
+
+    // 4th bar 
+    play(9, 7, 0.9) //E
+    play(10, 7, 1.9) //E
 
 
       function play (delay, pitch, duration) {
