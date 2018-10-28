@@ -70,14 +70,14 @@
         <label for="delayRangeInput" class="bmd-label-static">
           Delay: <span id="delayNumber"></span> second
         </label>
-        <input type="range" class="form-control" id="delayRangeInput" value="0" min="0" max="1" step="0.1">
+        <input type="range" class="form-control" id="delayRangeInput" value="0" min="0" max="1" step="0.01">
       </div>
 
       <div class="form-group">
         <label for="durationRangeInput" class="bmd-label-static">
           Duration: <span id="durationNumber"></span> seconds
         </label>
-        <input type="range" class="form-control" id="durationRangeInput" value="0.2" min="0" max="5" step="0.1">
+        <input type="range" class="form-control" id="durationRangeInput" value="0.2" min="0" max="5" step="0.01">
       </div>
 
       <div class="form-group">
@@ -97,15 +97,21 @@
           <div class="form-group">
             <label for="biquadFilterType" class="bmd-label-static">Filter type</label>
             <select name="biquadFilterType" id="biquadFilterType" class="btn btn-raised btn-secondary">
-              <option value="highpass">Highpass</option>
               <option value="lowpass">Lowpass</option>
+              <option value="highpass">Highpass</option>
+              <option value="bandpass">Bandpass</option>
+              <option value="lowshelf">Lowshelf</option>
+              <option value="highshelf">Highshelf</option>
+              <option value="peaking">Peaking</option>
+              <option value="notch">Notch</option>
+              <option value="allpass">Allpass</option>
             </select>
           </div>
           <div class="form-group">
             <label for="biquadFilterFrequencyRangeInput" class="bmd-label-static">
               Filter frequency: <span id="biquadFilterFrequencyNumber"></span> Herz
             </label>
-            <input type="range" class="form-control" id="biquadFilterFrequencyRangeInput" value="10000" min="-20000" max="20000" step="100">
+            <input type="range" class="form-control" id="biquadFilterFrequencyRangeInput" value="10000" min="0" max="24000" step="10">
           </div>
       </fieldset>
   
@@ -157,7 +163,14 @@
       const endTime = startTime + duration;
 
       const oscillator = audioContext.createOscillator();
-      oscillator.connect(audioContext.destination);
+
+      const filter = audioContext.createBiquadFilter()
+      filter.type = biquadFilterType.value;
+      filter.frequency.value = biquadFilterFrequencyRangeInput.value;
+
+      filter.connect(audioContext.destination)
+
+      oscillator.connect(filter)
 
       oscillator.type = oscillatorType.value;
       oscillator.frequency.value = frequencyRangeInput.value;
