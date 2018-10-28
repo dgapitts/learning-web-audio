@@ -91,6 +91,23 @@
           <option value="sine">Sine</option>
         </select>
       </div>
+
+      <fieldset>
+          <legend>Biquad Filtering</legend>
+          <div class="form-group">
+            <label for="biquadFilterType" class="bmd-label-static">Filter type</label>
+            <select name="biquadFilterType" id="biquadFilterType" class="btn btn-raised btn-secondary">
+              <option value="highpass">Highpass</option>
+              <option value="lowpass">Lowpass</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="biquadFilterFrequencyRangeInput" class="bmd-label-static">
+              Filter frequency: <span id="biquadFilterFrequencyNumber"></span> Herz
+            </label>
+            <input type="range" class="form-control" id="biquadFilterFrequencyRangeInput" value="10000" min="-20000" max="20000" step="100">
+          </div>
+      </fieldset>
   
       <p class="form-group">
         <button id="playButton" class="btn btn-raised btn-primary">Play</button>
@@ -118,6 +135,12 @@
     durationRangeInput.addEventListener('change', (e) => durationNumber.innerText = e.target.value);
 
     const oscillatorType = document.getElementById('oscillatorType');
+
+    const biquadFilterType = document.getElementById('biquadFilterType');
+    const biquadFilterFrequencyRangeInput = document.getElementById('biquadFilterFrequencyRangeInput');
+    const biquadFilterFrequencyNumber = document.getElementById('biquadFilterFrequencyNumber');
+    biquadFilterFrequencyNumber.innerText = biquadFilterFrequencyRangeInput.value;
+    biquadFilterFrequencyRangeInput.addEventListener('change', (e) => biquadFilterFrequencyNumber.innerText = e.target.value);
 
     const playButton = document.getElementById('playButton');
 
