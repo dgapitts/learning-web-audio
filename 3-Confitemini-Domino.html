@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>03. A minor scale (a - b - c - d - e -f - g - a</title>
+</head>
+<body>
+  <h1>03. Play a short sequence of notes</h1>
+
+  <pre>
+    var audioContext = new AudioContext()
+
+    // 3/4 time and 1 seconds per beat 
+    // A = 110 i.e. relatively low - this song is typically lead by a baritone/male voice
+    
+    // 1st bar 
+    play(0, 9, 0.4) //F#
+    play(0.5, 9, 0.4) //F#
+    play(1.0, 9, 0.4) //F#
+    play(1.5, 9, 0.4) //F#
+    play(2, 9, 0.9) //F#
+
+    // 2nd bar 
+    play(3, 9, 0.4) //F#
+    play(3.5, 5, 0.4) //D
+    play(4, 5, 1.9) //D
+
+    // 3rd bar 
+    play(6, 9, 0.4) //F#
+    play(6.5, 10, 0.4) //G
+    play(7, 10, 0.4) //G
+    play(7.5, 9, 0.4) //F#
+    play(8., 9, 0.4) //F#
+    play(8.5, 12, 0.4) //A
+
+    // 4th bar 
+    play(9, 7, 0.9) //E
+    play(10, 7, 1.9) //E
+
+
+    function play (delay, pitch, duration) {
+      var startTime = audioContext.currentTime + delay
+      var endTime = startTime + duration
+      
+      var oscillator = audioContext.createOscillator()
+      oscillator.connect(audioContext.destination)
+      oscillator.detune.value = 440  * Math.pow(2, pitch / 12)
+      
+      // add audioContext.currentTime
+      oscillator.start(audioContext.currentTime + delay)
+      oscillator.stop(audioContext.currentTime + delay + duration)
+
+    }
+        
+  </pre>
+
+  <script>
+      var audioContext = new AudioContext()
+
+    // 3/4 time and 1 seconds per beat 
+    // A = 110 i.e. relatively low - this song is typically lead by a baritone/male voice
+    
+    // 1st bar 
+    play(0, 9, 0.4) //F#
+    play(0.5, 9, 0.4) //F#
+    play(1.0, 9, 0.4) //F#
+    play(1.5, 9, 0.4) //F#
+    play(2, 9, 0.9) //F#
+
+    // 2nd bar 
+    play(3, 9, 0.4) //F#
+    play(3.5, 5, 0.4) //D
+    play(4, 5, 1.9) //D
+
+    // 3rd bar 
+    play(6, 9, 0.4) //F#
+    play(6.5, 10, 0.4) //G
+    play(7, 10, 0.4) //G
+    play(7.5, 9, 0.4) //F#
+    play(8., 9, 0.4) //F#
+    play(8.5, 12, 0.4) //A
+
+    // 4th bar 
+    play(9, 7, 0.9) //E
+    play(10, 7, 1.9) //E
+
+
+      function play (delay, pitch, duration) {
+        var startTime = audioContext.currentTime + delay
+        var endTime = startTime + duration
+        
+        var oscillator = audioContext.createOscillator()
+        oscillator.connect(audioContext.destination)
+
+
+        oscillator.detune.value = 110  * Math.pow(2, pitch / 12)
+        
+        // add audioContext.currentTime
+        oscillator.start(audioContext.currentTime + delay)
+        oscillator.stop(audioContext.currentTime + delay + duration)
+
+      }
+
+  </script>
+</body>
+</html>
