@@ -8,16 +8,20 @@
 
   <link rel="stylesheet" href="bootstrap-material-design.min.css">
   <style>
-    #synthesiserForm {
-      margin-top: 2em;
-    }
-
     ul {
       padding-left: 0;
     }
 
     ul li {
       list-style: none;
+    }
+
+    #synthesiserForm {
+      margin-top: 2em;
+    }
+
+    #playButton {
+      margin: 3em 0 2em;
     }
   </style>
 </head>
@@ -56,28 +60,28 @@
   <div class="container">
     <form id="synthesiserForm" action="#">
       <div class="form-group">
-        <label class="bmd-label-static">
+        <label for="frequencyRangeInput" class="bmd-label-static">
           Frequency: <span id="frequencyNumber"></span> Herz
         </label>
         <input type="range" class="form-control" id="frequencyRangeInput" value="440" min="55" max="1760" step="0.01">
       </div>
 
       <div class="form-group">
-        <label class="bmd-label-static">
+        <label for="delayRangeInput" class="bmd-label-static">
           Delay: <span id="delayNumber"></span> second
         </label>
         <input type="range" class="form-control" id="delayRangeInput" value="0" min="0" max="1" step="0.1">
       </div>
 
       <div class="form-group">
-        <label class="bmd-label-static">
+        <label for="durationRangeInput" class="bmd-label-static">
           Duration: <span id="durationNumber"></span> seconds
         </label>
         <input type="range" class="form-control" id="durationRangeInput" value="0.2" min="0" max="5" step="0.1">
       </div>
 
       <div class="form-group">
-        <label class="bmd-label-static">
+        <label for="oscillatorType" class="bmd-label-static">
           Oscillator type
         </label>
         <select name="oscillatorType" id="oscillatorType" class="btn btn-raised btn-secondary">
