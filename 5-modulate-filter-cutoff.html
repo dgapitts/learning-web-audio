@@ -24,7 +24,7 @@
       filter.connect(audioContext.destination)
       filter.type = 'highpass'
       filter.frequency.value = 10000
-      filter.frequency.setValueAtTime(10000, startTime)
+      filter.frequency.setValueAtTime(10000, startTime) 
       filter.frequency.linearRampToValueAtTime(500, endTime)
 
       var oscillator = audioContext.createOscillator()
