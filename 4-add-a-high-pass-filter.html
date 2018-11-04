@@ -19,12 +19,11 @@
     function play (delay, pitch, duration) {
       var startTime = audioContext.currentTime + delay
       var endTime = startTime + duration
-      
-      var oscillator = audioContext.createOscillator()
+
       var filter = audioContext.createBiquadFilter()
-      filter.type = 'highpass'
       filter.frequency.value = 10000
       filter.connect(audioContext.destination)
+      var oscillator = audioContext.createOscillator()
       oscillator.connect(filter)
 
       oscillator.type = 'sawtooth'

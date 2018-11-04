@@ -15,11 +15,43 @@
     var oscillator = audioContext.createOscillator()
     oscillator.connect(audioContext.destination)
 
-    oscillator.type = 'sawtooth'
+    oscillator.type = 'sine'
     oscillator.frequency.value = 440 * Math.pow(2, 3 / 12)
 
+    // WARNING - this doesn't quite work as expected - see exercise 3 for sequences
+    //a minor scale
+    oscillator.frequency.value = 440                       //a
     oscillator.start(audioContext.currentTime)
     oscillator.stop(audioContext.currentTime + 2)
+
+    oscillator.frequency.value = 440 * Math.pow(2, 2 / 12) //b
+    oscillator.start(audioContext.currentTime + 4)
+    oscillator.stop(audioContext.currentTime + 6)
+
+    oscillator.frequency.value = 440 * Math.pow(2, 3 / 12) //c
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 2)
+
+    oscillator.frequency.value = 440 * Math.pow(2, 5 / 12) //d
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 2)
+
+    oscillator.frequency.value = 440 * Math.pow(2, 7 / 12) //e
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 2)
+
+    oscillator.frequency.value = 440 * Math.pow(2, 8 / 12) //f
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 2)
+
+    oscillator.frequency.value = 440 * Math.pow(2, 10/ 12) //g
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 2)
+
+    oscillator.frequency.value = 440 * Math.pow(2, 12/ 12) //a
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 2)
+
   </script>
 </body>
 </html>
