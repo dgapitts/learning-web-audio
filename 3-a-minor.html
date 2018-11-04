@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>03. A minor scale (a - b - c - d - e -f - g - a</title>
+</head>
+<body>
+  <h1>03. Play a short sequence of notes</h1>
+
+  <pre>
+    var audioContext = new AudioContext()
+
+    play(0, 0, 1.8)
+    play(2, 2, 1.8)
+    play(4, 3, 1.8)
+    play(6, 5, 1.8)
+    play(8, 7, 1.8)
+    play(10, 9, 1.8)
+    play(12, 10, 1.8)
+    play(14, 12, 1.8)
+
+
+
+    function play (delay, pitch, duration) {
+      var startTime = audioContext.currentTime + delay
+      var endTime = startTime + duration
+      
+      var oscillator = audioContext.createOscillator()
+      oscillator.connect(audioContext.destination)
+      oscillator.detune.value = 110  * Math.pow(2, pitch / 12)
+      
+      // add audioContext.currentTime
+      oscillator.start(audioContext.currentTime + delay)
+      oscillator.stop(audioContext.currentTime + delay + duration)
+
+    }
+        
+  </pre>
+
+  <script>
+      var audioContext = new AudioContext()
+
+      play(0, 0, 1.8)
+      play(2, 2, 1.8)
+      play(4, 3, 1.8)
+      play(6, 5, 1.8)
+      play(8, 7, 1.8)
+      play(10, 9, 1.8)
+      play(12, 10, 1.8)
+      play(14, 12, 1.8)
+
+
+
+      function play (delay, pitch, duration) {
+        var startTime = audioContext.currentTime + delay
+        var endTime = startTime + duration
+        
+        var oscillator = audioContext.createOscillator()
+        oscillator.connect(audioContext.destination)
+        oscillator.detune.value = 110  * Math.pow(2, pitch / 12)
+        
+        // add audioContext.currentTime
+        oscillator.start(audioContext.currentTime + delay)
+        oscillator.stop(audioContext.currentTime + delay + duration)
+
+      }
+
+  </script>
+</body>
+</html>
